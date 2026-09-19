@@ -187,12 +187,7 @@ button, input, textarea { font: inherit; color: inherit; }
 @media (max-width: 59.99rem) { .hero__mark { order: -1; } }
 
 /* --------------------------------------------------------- booking panel */
-.panel { padding-top: clamp(3rem, 6vw, 5rem); }
-.panel__head { margin-bottom: clamp(2rem, 4vw, 3rem); }
-.panel__title {
-  font-size: clamp(1.5rem, 1rem + 2vw, 2.4rem);
-  font-stretch: 104%; max-width: 20ch;
-}
+.panel { padding-top: clamp(2.5rem, 5vw, 4rem); }
 
 .step {
   display: grid; grid-template-columns: minmax(0, 1fr);
@@ -200,6 +195,7 @@ button, input, textarea { font: inherit; color: inherit; }
   padding: clamp(1.75rem, 3vw, 2.5rem) 0;
   border-top: 1px solid var(--line);
 }
+.step:first-child { border-top: 0; padding-top: 0; }
 @media (min-width: 52rem) {
   .step { grid-template-columns: 14rem minmax(0, 1fr); }
 }
