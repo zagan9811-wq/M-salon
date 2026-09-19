@@ -385,12 +385,8 @@ button, input, textarea { font: inherit; color: inherit; }
   text-transform: uppercase; color: var(--crown); margin-top: .7rem;
 }
 
-/* Three to a shelf, the way they stand in the shop. Capped, or on a wide
-   screen the three cards stretch out and the bottles swell with them. */
-.products {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px;
-  max-width: 62rem;
-}
+/* Three to a shelf, the way they stand in the shop, across the full width. */
+.products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; }
 .products:empty { display: none; }
 @media (max-width: 62rem) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 40rem) { .products { grid-template-columns: minmax(0, 1fr); } }
@@ -422,7 +418,7 @@ button, input, textarea { font: inherit; color: inherit; }
 /* The shots come on a white backdrop, so the tile is white too and the two
    meet without a seam. */
 .product__img {
-  width: 100%; aspect-ratio: 3 / 2; object-fit: contain;
+  width: 100%; aspect-ratio: 16 / 9; max-height: 14rem; object-fit: contain;
   padding: .9rem; background: #fff;
 }
 
