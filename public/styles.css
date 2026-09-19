@@ -117,24 +117,12 @@ button, input, textarea { font: inherit; color: inherit; }
   padding: clamp(4rem, 9vw, 8rem) var(--pad) clamp(4.5rem, 10vw, 9rem);
   scroll-margin-top: var(--bar);
 }
-.section--paper { background-color: var(--paper); --rule: rgba(11, 11, 11, .07); }
+.section--paper { background-color: var(--paper); }
 .section--ink {
   background-color: var(--ink); color: var(--paper-warm);
   --line: var(--line-light);
-  --rule: rgba(218, 192, 157, .12);
 }
 
-/* The dividers in the tab bar carry on down the page, very faintly. It is
-   what keeps the four sections feeling like one sheet of paper. */
-@media (min-width: 60rem) {
-  .section {
-    background-image: linear-gradient(90deg,
-      transparent 0 25%, var(--rule) 25% calc(25% + 1px),
-      transparent calc(25% + 1px) 50%, var(--rule) 50% calc(50% + 1px),
-      transparent calc(50% + 1px) 75%, var(--rule) 75% calc(75% + 1px),
-      transparent calc(75% + 1px));
-  }
-}
 #book { padding-top: calc(var(--bar) + 1rem); }
 
 .rubric {
