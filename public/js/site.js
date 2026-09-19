@@ -101,20 +101,26 @@ async function loadProducts(price) {
     card.className = 'product';
 
     const image = product.image
-      ? `<img class="product__img" src="${esc(product.image)}" alt="" loading="lazy">`
+      ? `<img class="product__img" src="${esc(product.image)}" alt="${esc(product.name)}" loading="lazy">`
       : '';
-    const foot = product.price
+    const cost = product.price
       ? `<p class="product__price">${esc(product.price)} ` +
         `<span>${esc(product.currency || price.currency)}</span></p>`
+      : '';
+    // With neither a size nor a price there is nothing to rule off.
+    const foot = product.size || product.price
+      ? `<div class="product__foot">` +
+          (product.size ? `<span class="product__size">${esc(product.size)}</span>` : '<span></span>') +
+          cost +
+        `</div>`
       : '';
 
     card.innerHTML =
       image +
-      (product.brand ? `<p class="product__brand">${esc(product.brand)}</p>` : '') +
-      `<h3 class="product__name">${esc(product.name)}</h3>` +
-      (product.description ? `<p class="product__desc">${esc(product.description)}</p>` : '') +
-      `<div class="product__foot">` +
-        (product.size ? `<span class="product__size">${esc(product.size)}</span>` : '<span></span>') +
+      `<div class="product__body">` +
+        (product.brand ? `<p class="product__brand">${esc(product.brand)}</p>` : '') +
+        `<h3 class="product__name">${esc(product.name)}</h3>` +
+        (product.description ? `<p class="product__desc">${esc(product.description)}</p>` : '') +
         foot +
       `</div>`;
     grid.appendChild(card);

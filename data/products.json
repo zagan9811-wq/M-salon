@@ -1,93 +1,45 @@
 {
-  "note": "Prices are in the currency set by the CURRENCY variable. Leave \"price\" as an empty string to hide it on a card. Drop a photo in public/assets/ and point \"image\" at it, e.g. /assets/bulldog-oil.jpg",
+  "note": "One object per product. \"image\" points at a file in public/assets/products/. Leave \"price\" or \"size\" as an empty string and that line simply does not appear on the card.",
   "products": [
     {
       "brand": "Bulldog",
-      "name": "Original Beard Oil",
-      "size": "30 ml",
-      "description": "Softens the beard and settles it down. Aloe vera, camelina oil and green tea, absorbs without leaving a shine.",
-      "price": "20,000",
-      "image": ""
-    },
-    {
-      "brand": "Bulldog",
-      "name": "Beard Shampoo & Conditioner",
-      "size": "200 ml",
-      "description": "Washes and conditions in one pass, so the beard stays soft instead of drying out under hair shampoo.",
-      "price": "20,000",
-      "image": ""
-    },
-    {
-      "brand": "SEINZ.",
-      "name": "Styling Matte Paste",
-      "size": "100 ml",
-      "description": "Flexible hold with no shine. Works the hair into texture and lets you rework it through the day.",
-      "price": "15,000",
-      "image": ""
-    },
-    {
-      "brand": "Schwarzkopf taft",
-      "name": "Heat Protection Spray",
-      "size": "250 ml",
-      "description": "Goes on before the dryer or the iron. Rated to 230°C.",
-      "price": "15,000",
-      "image": ""
-    },
-    {
-      "brand": "taft × Gliss",
-      "name": "Lovely Long Heat Protection Spray",
-      "size": "150 ml",
-      "description": "Heat protection plus care in one spray, for longer hair. Detangles and guards the ends.",
-      "price": "15,000",
-      "image": ""
-    },
-    {
-      "brand": "wellaflex",
-      "name": "Fülle & Style Hairspray",
-      "size": "250 ml",
-      "description": "Ultra strong hold, level 5. Holds volume up to 48 hours and brushes out without stickiness.",
-      "price": "12,500",
-      "image": ""
+      "name": "Original Shaving Gel",
+      "size": "",
+      "description": "Pump onto wet hands, spread over damp skin and shave with the grain. Rinse the blade often.",
+      "price": "",
+      "image": "/assets/products/bulldog-shaving-gel.jpg"
     },
     {
       "brand": "sebamed",
-      "name": "Every-Day Shampoo",
-      "size": "200 ml",
-      "description": "Soap-free sugar-surfactant formula, mild enough for daily washing. Suits every hair type.",
-      "price": "15,000",
-      "image": ""
-    },
-    {
-      "brand": "SEINZ.",
-      "name": "Face & Beard Wash Gel",
-      "size": "250 ml",
-      "description": "AHA and PHA micro-actives. Cleans the skin under the beard, where most trouble starts.",
-      "price": "20,000",
-      "image": ""
-    },
-    {
-      "brand": "SEINZ.",
-      "name": "Face Cream",
+      "name": "Every-day Shampoo",
       "size": "50 ml",
-      "description": "Daily moisturiser for men's skin. Sits under the beard without feeling heavy.",
-      "price": "20,000",
-      "image": ""
+      "description": "Work into wet hair, leave a moment, rinse. Soap-free at pH 5.5, so it takes a wash every day.",
+      "price": "",
+      "image": "/assets/products/sebamed-shampoo.jpg"
     },
     {
-      "brand": "SEINZ.",
-      "name": "Anti-Perspirant Spray",
+      "brand": "taft × Gliss",
+      "name": "Leave-in Conditioner Glitter Spray",
+      "size": "",
+      "description": "Spray over towel-dried lengths and leave it in. Comb through, then style as usual.",
+      "price": "",
+      "image": "/assets/products/taft-gliss-glitter.jpg"
+    },
+    {
+      "brand": "taft",
+      "name": "Heat Protection Spray",
+      "size": "",
+      "description": "Mist over damp hair before the dryer or the iron. Rated to 230°C.",
+      "price": "",
+      "image": "/assets/products/taft-hitzeschutz.jpg"
+    },
+    {
+      "brand": "wellaflex",
+      "name": "Hair Spray — hold 5",
       "size": "200 ml",
-      "description": "Extra strong, 48-hour protection, alcohol free. Activated charcoal and ginseng.",
-      "price": "10,000",
-      "image": ""
-    },
-    {
-      "brand": "Balea MEN",
-      "name": "Energy Eye Roll-On",
-      "size": "15 ml",
-      "description": "Caffeine and a vitamin complex on a cooling steel roller. For tired eyes, takes ten seconds.",
-      "price": "10,000",
-      "image": ""
+      "description": "Hold the can 25 cm from the finished style and mist. Brushes out without flaking.",
+      "price": "",
+      "image": "/assets/products/wellaflex-hairspray.jpg"
     }
   ]
 }

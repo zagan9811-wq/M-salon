@@ -430,11 +430,18 @@ button, input, textarea { font: inherit; color: inherit; }
   text-transform: uppercase; color: var(--crown); margin-top: .7rem;
 }
 
-.products { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1px; }
+/* Three to a shelf, the way they stand in the shop. */
+.products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; }
 .products:empty { display: none; }
+@media (max-width: 62rem) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .products { grid-template-columns: minmax(0, 1fr); } }
+
 .product {
   box-shadow: 0 0 0 1px var(--line-light);
-  padding: 1.4rem 1.4rem 1.2rem;
+  display: flex; flex-direction: column;
+}
+.product__body {
+  flex: 1; padding: 1.4rem 1.4rem 1.2rem;
   display: flex; flex-direction: column; gap: .45rem;
 }
 .product__brand {
@@ -453,7 +460,12 @@ button, input, textarea { font: inherit; color: inherit; }
 .product__size { font-family: var(--mono); font-size: .74rem; color: var(--crown); }
 .product__price { font-family: var(--mono); font-size: 1rem; color: var(--crown); margin: 0; }
 .product__price span { font-size: .72rem; opacity: .75; }
-.product__img { aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: .6rem; filter: grayscale(.15); }
+/* The shots come on a white backdrop, so the tile is white too and the two
+   meet without a seam. */
+.product__img {
+  width: 100%; aspect-ratio: 5 / 4; object-fit: contain;
+  background: #fff;
+}
 
 .products__empty {
   border: 1px dashed var(--line-light); padding: clamp(1.75rem, 4vw, 3rem);
