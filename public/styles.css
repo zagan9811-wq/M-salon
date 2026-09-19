@@ -259,9 +259,14 @@ button, input, textarea { font: inherit; color: inherit; }
   display: flex; gap: .6rem; overflow-x: auto; padding-bottom: .75rem;
   scroll-snap-type: x proximity;
   scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
   -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
   mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
 }
+.days::-webkit-scrollbar { height: 3px; }
+.days::-webkit-scrollbar-track { background: transparent; }
+.days::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+
 .day {
   flex: 0 0 auto; width: 6.25rem; scroll-snap-align: start;
   background: transparent; text-align: left; cursor: pointer;

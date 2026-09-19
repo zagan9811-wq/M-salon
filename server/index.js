@@ -193,12 +193,17 @@ app.post('/api/admin/bookings/:reference/cancel', requireAdmin, (req, res) => {
 
 app.get('/healthz', (req, res) => res.json({ ok: true, today: todayISO() }));
 
+// The page, the stylesheet and the scripts are the deploy. Caching them for an
+// hour meant a fresh page could still arrive wearing last hour's stylesheet, so
+// they are revalidated on every visit — a 304 costs almost nothing at this size.
+// Pictures and icons keep the long cache; they change under a new name.
+const REVALIDATE = /\.(html|css|js|json|webmanifest)$/;
+
 app.use(express.static(path.join(root, 'public'), {
   extensions: ['html'],
-  maxAge: '1h',
+  maxAge: '30d',
   setHeaders(res, filePath) {
-    // Pages must never be stale; the assets beside them can sit in the cache.
-    if (filePath.endsWith('.html')) res.set('Cache-Control', 'no-cache');
+    if (REVALIDATE.test(filePath)) res.set('Cache-Control', 'no-cache');
   }
 }));
 
