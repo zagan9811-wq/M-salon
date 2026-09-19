@@ -1,0 +1,10 @@
+# better-sqlite3 ships prebuilt binaries for current Node releases; pinning the
+# major keeps Railway from picking one it has no build for.
+[phases.setup]
+nixPkgs = ["nodejs_22"]
+
+[phases.install]
+cmds = ["npm ci --omit=dev"]
+
+[start]
+cmd = "npm start"

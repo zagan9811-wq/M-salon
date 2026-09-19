@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="M Salon">
+  <circle cx="200" cy="200" r="200" fill="#0B0B0B"/>
+  <path d="M101 166V105l58 37 40-37 40 37 58-37v61Z" fill="#DAC09D"/>
+  <path d="M99 188h198v110h-43v-80l-55 44-54-44v80H99Z" fill="#5D5D5D"/>
+</svg>

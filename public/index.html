@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M Salon — Barbershop in Kadhimiya, Baghdad</title>
+<meta name="description" content="Mohammed Qasim's barbershop in Kadhimiya, Baghdad. One chair, one price, booked by appointment. Pick a day and a time online.">
+<meta name="theme-color" content="#0B0B0B">
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:title" content="M Salon — Barbershop in Kadhimiya, Baghdad">
+<meta property="og:description" content="One chair, one price, booked by appointment.">
+<meta property="og:image" content="/assets/logo.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <nav class="tabs" id="tabs" aria-label="Sections">
+    <a class="tab is-active" href="#book"     data-tab><span class="tab__index">01</span><span class="tab__label">Book</span></a>
+    <a class="tab"           href="#products" data-tab><span class="tab__index">02</span><span class="tab__label">Products</span></a>
+    <a class="tab"           href="#about"    data-tab><span class="tab__index">03</span><span class="tab__label">About</span></a>
+    <a class="tab"           href="#visit"    data-tab><span class="tab__index">04</span><span class="tab__label">Visit</span></a>
+    <span class="tabs__slider" id="tabs-slider" aria-hidden="true"></span>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- 01 ------------------------------------------------------------ BOOK -->
+  <section class="section section--paper" id="book" aria-labelledby="book-title">
+    <div class="hero">
+      <div class="hero__text">
+        <p class="eyebrow" data-reveal>Baghdad &middot; Kadhimiya</p>
+        <h1 class="hero__title" id="book-title" data-reveal>Book<br>the chair.</h1>
+        <p class="hero__lede" data-reveal>
+          M Salon is Mohammed Qasim&rsquo;s barbershop. One chair, one price,
+          and a time that belongs to you &mdash; no bench, no waiting your turn.
+        </p>
+        <a class="cue" href="#booking" data-scroll data-reveal>
+          <span>Choose your day</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v16m0 0 7-7m-7 7-7-7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+      </div>
+
+      <div class="hero__mark" data-reveal>
+        <img src="/assets/logo.png" width="512" height="512" alt="M Salon" fetchpriority="high">
+      </div>
+
+      <dl class="facts" data-reveal>
+        <div class="fact">
+          <dt>Every cut</dt>
+          <dd class="fact__value" id="fact-price">25</dd>
+          <dd class="fact__unit" id="fact-currency">IQD</dd>
+        </div>
+        <div class="fact">
+          <dt>Per appointment</dt>
+          <dd class="fact__value" id="fact-slot">30</dd>
+          <dd class="fact__unit">minutes</dd>
+        </div>
+        <div class="fact">
+          <dt>Calendar open</dt>
+          <dd class="fact__value" id="fact-horizon">14</dd>
+          <dd class="fact__unit">days ahead</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="panel" id="booking">
+      <header class="panel__head">
+        <p class="rubric"><b>01</b> Booking</p>
+        <h2 class="panel__title">Three taps and the chair is yours.</h2>
+      </header>
+
+      <!-- step 1 -->
+      <section class="step" aria-labelledby="step-day">
+        <div class="step__side">
+          <p class="step__no">Step one</p>
+          <h3 class="step__title" id="step-day">Day</h3>
+          <p class="step__hint">Today first, then the next two weeks.</p>
+        </div>
+        <div class="step__body">
+          <div class="days" id="days" role="radiogroup" aria-label="Choose a day">
+            <p class="loading">Loading the calendar&hellip;</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 2 -->
+      <section class="step" aria-labelledby="step-time">
+        <div class="step__side">
+          <p class="step__no">Step two</p>
+          <h3 class="step__title" id="step-time">Time</h3>
+          <p class="step__hint" id="times-hours">Greyed-out times are already taken.</p>
+        </div>
+        <div class="step__body">
+          <div class="times" id="times" role="radiogroup" aria-label="Choose a time">
+            <p class="muted">Pick a day above to see its times.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 3 -->
+      <section class="step" aria-labelledby="step-you">
+        <div class="step__side">
+          <p class="step__no">Step three</p>
+          <h3 class="step__title" id="step-you">You</h3>
+          <p class="step__hint">We only need a name and a number.</p>
+        </div>
+        <div class="step__body">
+          <form class="form" id="booking-form" novalidate>
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" maxlength="60" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                     placeholder="07XX XXX XXXX" maxlength="20" required>
+            </div>
+            <div class="field field--wide">
+              <label for="note">Anything the barber should know <em>optional</em></label>
+              <textarea id="note" name="note" rows="2" maxlength="200"></textarea>
+            </div>
+
+            <div class="summary" id="summary">
+              <div class="summary__row"><span>Date</span><b id="sum-date">&mdash;</b></div>
+              <div class="summary__row"><span>Day</span><b id="sum-day">&mdash;</b></div>
+              <div class="summary__row"><span>Time</span><b id="sum-time">&mdash;</b></div>
+              <div class="summary__row summary__row--total"><span>Price</span><b id="sum-price">25 IQD</b></div>
+            </div>
+
+            <p class="form__error" id="form-error" role="alert" hidden></p>
+            <button class="btn btn--gold" id="submit" type="submit" disabled>Confirm booking</button>
+            <p class="form__fine">Confirmed instantly. Cancel any time with the reference we give you.</p>
+          </form>
+
+          <!-- confirmation -->
+          <div class="ticket" id="ticket" hidden>
+            <div class="ticket__top">
+              <p class="ticket__label">Confirmed</p>
+              <p class="ticket__ref" id="ticket-ref">M-000000</p>
+            </div>
+            <div class="ticket__grid">
+              <div><span>Name</span><b id="ticket-name"></b></div>
+              <div><span>Day</span><b id="ticket-day"></b></div>
+              <div><span>Date</span><b id="ticket-date"></b></div>
+              <div><span>Time</span><b id="ticket-time"></b></div>
+              <div><span>Price</span><b id="ticket-price"></b></div>
+              <div><span>Where</span><b id="ticket-where">Kadhimiya, Baghdad</b></div>
+            </div>
+            <p class="ticket__note">Keep the reference. It is the only thing you need to move or cancel.</p>
+            <div class="ticket__actions">
+              <a class="btn btn--gold" id="ticket-ics" download="m-salon.ics" href="#">Add to calendar</a>
+              <button class="btn btn--ghost" id="ticket-cancel" type="button">Cancel booking</button>
+              <button class="btn btn--ghost" id="ticket-again" type="button">Book another</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="panel__foot">
+        <details class="lookup">
+          <summary>Already booked? Find it with your reference</summary>
+          <form class="lookup__form" id="lookup-form" novalidate>
+            <label class="sr-only" for="lookup-ref">Booking reference</label>
+            <input id="lookup-ref" name="reference" placeholder="M-XXXXXX" maxlength="10" autocomplete="off">
+            <button class="btn btn--ink" type="submit">Find</button>
+          </form>
+          <p class="lookup__msg" id="lookup-msg" role="status"></p>
+        </details>
+      </footer>
+    </div>
+  </section>
+
+  <!-- 02 -------------------------------------------------------- PRODUCTS -->
+  <section class="section section--ink" id="products" aria-labelledby="products-title">
+    <header class="section__head">
+      <p class="rubric rubric--light"><b>02</b> Products</p>
+      <h2 class="section__title" id="products-title">On the shelf.</h2>
+      <p class="section__lede">
+        What we use on you is what we sell you &mdash; nothing else goes on the shelf.
+      </p>
+    </header>
+
+    <div class="products" id="products-grid" data-reveal>
+      <p class="loading loading--light">Loading&hellip;</p>
+    </div>
+
+    <div class="products__empty" id="products-empty" hidden data-reveal>
+      <p class="products__emptyTitle">The shelf is being stocked.</p>
+      <p class="products__emptyText">
+        The first products land here soon. Ask at the chair, or call the shop and
+        Mohammed will tell you what is in.
+      </p>
+      <a class="btn btn--gold" data-phone-link href="#">Call the shop</a>
+    </div>
+  </section>
+
+  <!-- 03 ----------------------------------------------------------- ABOUT -->
+  <section class="section section--paper" id="about" aria-labelledby="about-title">
+    <header class="section__head">
+      <p class="rubric"><b>03</b> About</p>
+      <h2 class="section__title" id="about-title">One barber,<br>one chair,<br>one price.</h2>
+    </header>
+
+    <div class="about">
+      <div class="about__body" data-reveal>
+        <p class="about__lead">
+          M Salon is run by Mohammed Qasim in Kadhimiya, Baghdad.
+        </p>
+        <p>
+          Every cut costs the same and every appointment is held for the same
+          length of time. That is the whole system. It means the man in the chair
+          gets the full slot, and the man who booked after him walks in at his
+          own time instead of watching the clock from a bench.
+        </p>
+        <p>
+          Book the day and the hour that suit you, arrive a few minutes early,
+          and leave sharp. If you need a time the calendar does not show, call
+          the shop &mdash; the phone still works the old way.
+        </p>
+      </div>
+      <dl class="about__facts" data-reveal>
+        <div><dt>Owner</dt><dd>Mohammed Qasim</dd></div>
+        <div><dt>Chairs</dt><dd>One</dd></div>
+        <div><dt>Price</dt><dd data-price-label>25 IQD</dd></div>
+        <div><dt>Booking</dt><dd>Online, <span data-horizon>14</span> days ahead</dd></div>
+        <div><dt>Instagram</dt><dd><a data-instagram-link href="#">@mohamaqasim</a></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 04 ----------------------------------------------------------- VISIT -->
+  <section class="section section--ink" id="visit" aria-labelledby="visit-title">
+    <header class="section__head">
+      <p class="rubric rubric--light"><b>04</b> Visit</p>
+      <h2 class="section__title" id="visit-title">Where and when.</h2>
+    </header>
+
+    <div class="visit">
+      <div class="visit__card" data-reveal>
+        <h3>Address</h3>
+        <p class="visit__address">Baghdad &mdash; Kadhimiya<br>next to Reda Alwan</p>
+        <p class="visit__address visit__address--ar" lang="ar" dir="rtl">بغداد – الكاظمية – مجاور رضا علوان</p>
+        <a class="btn btn--ghost" data-maps-link href="#" target="_blank" rel="noopener">Open in Maps</a>
+      </div>
+
+      <div class="visit__card" data-reveal>
+        <h3>Phone</h3>
+        <a class="visit__phone" data-phone-link href="#">07723 163 869</a>
+        <p class="visit__small">Call for anything the calendar cannot answer.</p>
+        <button class="btn btn--ghost" id="copy-phone" type="button">Copy number</button>
+      </div>
+
+      <div class="visit__card visit__card--hours" data-reveal>
+        <h3>Hours</h3>
+        <table class="hours" id="hours">
+          <tbody><tr><td class="muted" colspan="2">Loading&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <a class="visit__cta" href="#book" data-scroll data-reveal>
+      <span>Back to the calendar</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V5m0 0 7 7m-7-7-7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p class="footer__brand">M Salon</p>
+    <p class="footer__meta">Mohammed Qasim &middot; Kadhimiya, Baghdad &middot; <span id="year">2026</span></p>
+  </footer>
+</main>
+
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>

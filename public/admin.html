@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Diary — M Salon</title>
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .diary { padding: clamp(2rem, 5vw, 4rem) var(--pad); max-width: 60rem; }
+  .diary__title { font-size: clamp(2rem, 6vw, 3.5rem); text-transform: uppercase; font-stretch: 110%; }
+  .gate { display: flex; gap: .6rem; flex-wrap: wrap; margin: 2rem 0; }
+  .gate input { border: 1px solid var(--line); border-radius: 2px; padding: .75rem .9rem; background: transparent; min-width: 14rem; }
+  .diary__day { margin-top: 2.5rem; }
+  .diary__dayHead { font-family: var(--mono); font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--graphite); border-bottom: 1px solid var(--line); padding-bottom: .5rem; }
+  .row { display: grid; grid-template-columns: 6.5rem 1fr auto auto; gap: 1rem; align-items: center; padding: .85rem 0; border-bottom: 1px solid var(--line-soft); }
+  .row__time { font-family: var(--mono); font-weight: 500; }
+  .row__phone { font-family: var(--mono); font-size: .82rem; color: var(--graphite); }
+  .row__note { grid-column: 2 / -1; font-size: .85rem; color: var(--graphite); margin: 0; }
+  .row__ref { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; color: var(--graphite); }
+  .row button { background: transparent; border: 1px solid var(--line); border-radius: 2px; padding: .35rem .7rem; font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; }
+  .row button:hover { border-color: #B3261E; color: #B3261E; }
+  @media (max-width: 34rem) { .row { grid-template-columns: 5.5rem 1fr auto; } .row__ref { display: none; } }
+</style>
+</head>
+<body>
+  <main class="diary">
+    <p class="rubric"><b>M</b> Salon</p>
+    <h1 class="diary__title">The diary</h1>
+    <p class="muted">Everything booked from today onwards.</p>
+
+    <form class="gate" id="gate">
+      <label class="sr-only" for="key">Owner key</label>
+      <input id="key" type="password" placeholder="Owner key" autocomplete="current-password">
+      <button class="btn btn--ink" type="submit">Open</button>
+    </form>
+
+    <p class="form__error" id="error" role="alert" hidden></p>
+    <div id="list"></div>
+  </main>
+
+<script type="module">
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pretty = (iso) => { const [y,m,d] = iso.split('-').map(Number); return `${d} ${MONTHS[m-1]} ${y}`; };
+const error = document.getElementById('error');
+const list = document.getElementById('list');
+let key = sessionStorage.getItem('m-salon-key') || '';
+
+async function load() {
+  error.hidden = true;
+  const response = await fetch('/api/admin/bookings', { headers: { 'x-admin-key': key } });
+  const payload = await response.json();
+
+  if (!response.ok) {
+    error.textContent = payload.error;
+    error.hidden = false;
+    list.innerHTML = '';
+    sessionStorage.removeItem('m-salon-key');
+    return;
+  }
+
+  sessionStorage.setItem('m-salon-key', key);
+  document.getElementById('gate').hidden = true;
+  render(payload.bookings);
+}
+
+function render(bookings) {
+  list.innerHTML = '';
+  if (!bookings.length) {
+    list.innerHTML = '<p class="muted">Nothing booked yet.</p>';
+    return;
+  }
+
+  const byDate = new Map();
+  bookings.forEach((booking) => {
+    if (!byDate.has(booking.date)) byDate.set(booking.date, []);
+    byDate.get(booking.date).push(booking);
+  });
+
+  byDate.forEach((day, date) => {
+    const block = document.createElement('section');
+    block.className = 'diary__day';
+    block.innerHTML = `<p class="diary__dayHead">${esc(day[0].day)} · ${pretty(date)} · ${day.length} booked</p>`;
+
+    day.forEach((booking) => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML =
+        `<span class="row__time">${esc(booking.timeLabel)}</span>` +
+        `<span><b>${esc(booking.name)}</b><br>` +
+          `<a class="row__phone" href="tel:${esc(booking.phone)}">${esc(booking.phone)}</a></span>` +
+        `<span class="row__ref">${esc(booking.reference)}</span>` +
+        `<button type="button">Cancel</button>` +
+        (booking.note ? `<p class="row__note">“${esc(booking.note)}”</p>` : '');
+
+      row.querySelector('button').addEventListener('click', async () => {
+        if (!confirm(`Cancel ${booking.name} at ${booking.timeLabel}?`)) return;
+        await fetch(`/api/admin/bookings/${booking.reference}/cancel`, {
+          method: 'POST',
+          headers: { 'x-admin-key': key }
+        });
+        load();
+      });
+
+      block.appendChild(row);
+    });
+
+    list.appendChild(block);
+  });
+}
+
+document.getElementById('gate').addEventListener('submit', (event) => {
+  event.preventDefault();
+  key = document.getElementById('key').value.trim();
+  load();
+});
+
+if (key) load();
+</script>
+</body>
+</html>
