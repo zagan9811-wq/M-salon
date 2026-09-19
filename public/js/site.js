@@ -16,10 +16,6 @@ function prettyPhone(raw) {
 export function initSite(config) {
   const { shop, price } = config;
 
-  document.getElementById('fact-price').textContent = price.amount;
-  document.getElementById('fact-currency').textContent = price.currency;
-  document.getElementById('fact-slot').textContent = config.slotMinutes;
-  document.getElementById('fact-horizon').textContent = config.horizonDays;
   setText('[data-price-label]', `${price.amount} ${price.currency}`);
   setText('[data-horizon]', config.horizonDays);
   document.getElementById('year').textContent = String(new Date().getFullYear());
