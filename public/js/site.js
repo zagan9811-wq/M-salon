@@ -95,21 +95,30 @@ async function loadProducts(price) {
     return;
   }
 
+  document.getElementById('products-shelf').hidden = false;
+
   grid.innerHTML = '';
   products.forEach((product) => {
     const card = document.createElement('article');
     card.className = 'product';
+
     const image = product.image
       ? `<img class="product__img" src="${esc(product.image)}" alt="" loading="lazy">`
       : '';
-    const cost = product.price
-      ? `<p class="product__price">${esc(product.price)} ${esc(product.currency || price.currency)}</p>`
+    const foot = product.price
+      ? `<p class="product__price">${esc(product.price)} ` +
+        `<span>${esc(product.currency || price.currency)}</span></p>`
       : '';
+
     card.innerHTML =
       image +
+      (product.brand ? `<p class="product__brand">${esc(product.brand)}</p>` : '') +
       `<h3 class="product__name">${esc(product.name)}</h3>` +
       (product.description ? `<p class="product__desc">${esc(product.description)}</p>` : '') +
-      cost;
+      `<div class="product__foot">` +
+        (product.size ? `<span class="product__size">${esc(product.size)}</span>` : '<span></span>') +
+        foot +
+      `</div>`;
     grid.appendChild(card);
   });
 }

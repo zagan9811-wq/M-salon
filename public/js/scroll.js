@@ -8,6 +8,13 @@
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+/* How much of the remaining distance the page eats per frame while the wheel
+   is driving it, measured at 60fps. Lower = longer, softer glide.
+   0.15 is roughly what a browser does on its own and reads as steppy;
+   0.05 keeps the same fast-then-fading shape as the tab jumps, only gentler.
+   Anything under 0.03 starts to feel like the page is lagging behind you. */
+const WHEEL_EASE = 0.05;
+
 const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 const clamp = (min, value, max) => Math.max(min, Math.min(value, max));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -202,4 +209,106 @@ export function initReveal() {
   );
 
   items.forEach((item) => observer.observe(item));
+}
+
+/* ------------------------------------------------------ wheel: soft glide */
+/*
+ * A mouse wheel moves the page in hard steps. This replaces each step with a
+ * pull towards a target: every frame the page covers WHEEL_EASE of whatever
+ * distance is left, which is fast at the moment of the flick and keeps fading
+ * as it arrives — the same curve as a section jump, just lighter.
+ *
+ * Deliberately left alone: touch screens, trackpads (they carry their own
+ * inertia and smoothing one on top of the other only feels late), pinch-zoom,
+ * and anything scrolling inside its own box, such as the day rail.
+ */
+export function initWheel() {
+  if (reduced.matches) return;
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
+  let target = window.scrollY;
+  // The page is driven from a float of our own: the browser rounds scrollY to
+  // whole pixels, and reading it back each frame would strand the last few.
+  let current = window.scrollY;
+  let animating = false;
+  let previous = 0;
+  let restore = null;
+
+  const maxScroll = () =>
+    Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+  // The scrollbar, the keyboard and our own jumps all move the page without
+  // asking us, so the target follows along whenever we are not driving.
+  window.addEventListener('scroll', () => {
+    if (animating) return;
+    target = window.scrollY;
+    current = window.scrollY;
+  }, { passive: true });
+
+  // Only a box that scrolls *vertically* gets to keep the wheel. The day rail
+  // scrolls sideways, so a downward flick over it should still move the page.
+  function insideOwnScroller(node) {
+    for (let el = node; el && el !== document.body; el = el.parentElement) {
+      const style = getComputedStyle(el);
+      // A horizontal scrollbar eats a dozen pixels of clientHeight, which reads
+      // as vertical overflow; only real room to move counts.
+      if (/(auto|scroll)/.test(style.overflowY) && el.scrollHeight - el.clientHeight > 24) return true;
+    }
+    return false;
+  }
+
+  function distance(event) {
+    if (event.deltaMode === 1) return event.deltaY * 18;                 // lines
+    if (event.deltaMode === 2) return event.deltaY * window.innerHeight; // pages
+    return event.deltaY;
+  }
+
+  function isWheel(event) {
+    if (event.deltaMode !== 0) return true;
+    const step = Math.abs(event.deltaY);
+    return step >= 40 || (Number.isInteger(event.deltaY) && step >= 12);
+  }
+
+  window.addEventListener('wheel', (event) => {
+    if (event.ctrlKey || event.defaultPrevented) return;          // pinch zoom
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;  // sideways, leave it
+    if (!isWheel(event)) return;                                  // trackpad
+    if (insideOwnScroller(event.target)) return;
+
+    event.preventDefault();
+    stop();                                                // the reader outranks a tab jump
+
+    if (!animating) {
+      target = window.scrollY;
+      current = window.scrollY;
+      previous = performance.now();
+      restore = holdNativeScroll();
+      animating = true;
+      requestAnimationFrame(tick);
+    }
+    target = clamp(0, target + distance(event), maxScroll());
+  }, { passive: false });
+
+  function tick(now) {
+    // Frames are not all 16.7ms — a 120Hz screen would otherwise arrive twice
+    // as fast — so the per-frame pull is rescaled to however long this one took.
+    const frames = clamp(0.2, (now - previous) / (1000 / 60), 4);
+    previous = now;
+
+    target = clamp(0, target, maxScroll());
+    const left = target - current;
+
+    if (Math.abs(left) < 1) {
+      current = target;
+      window.scrollTo(0, target);
+      animating = false;
+      if (restore) restore();
+      restore = null;
+      return;
+    }
+
+    current += left * (1 - Math.pow(1 - WHEEL_EASE, frames));
+    window.scrollTo(0, current);
+    requestAnimationFrame(tick);
+  }
 }

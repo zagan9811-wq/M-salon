@@ -1,9 +1,10 @@
-import { initNav, initReveal } from './scroll.js';
+import { initNav, initReveal, initWheel } from './scroll.js';
 import { initBooking } from './booking.js';
 import { initSite } from './site.js';
 
 initNav();
 initReveal();
+initWheel();
 
 fetch('/api/config')
   .then((response) => response.json())

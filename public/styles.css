@@ -415,12 +415,36 @@ button, input, textarea { font: inherit; color: inherit; }
 .lookup__msg { margin: .8rem 0 0; font-size: .88rem; }
 
 /* -------------------------------------------------------------- products */
-.products { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1px; }
+.shelf { margin: 0 0 clamp(2rem, 4vw, 3rem); }
+.shelf img { width: 100%; border: 1px solid var(--line-light); }
+.shelf figcaption {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--crown); margin-top: .7rem;
+}
+
+.products { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1px; }
 .products:empty { display: none; }
-.product { box-shadow: 0 0 0 1px var(--line-light); padding: 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
-.product__name { font-size: 1.15rem; text-transform: uppercase; font-stretch: 106%; }
-.product__desc { font-size: .9rem; color: var(--crown); margin: 0; }
-.product__price { font-family: var(--mono); font-size: .9rem; color: var(--gold); margin-top: auto; padding-top: .8rem; }
+.product {
+  box-shadow: 0 0 0 1px var(--line-light);
+  padding: 1.4rem 1.4rem 1.2rem;
+  display: flex; flex-direction: column; gap: .45rem;
+}
+.product__brand {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold); margin: 0;
+}
+.product__name {
+  font-size: 1.1rem; text-transform: uppercase; font-stretch: 104%; line-height: 1.05;
+}
+.product__desc { font-size: .86rem; line-height: 1.45; color: var(--crown); margin: 0; }
+.product__foot {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  margin-top: auto; padding-top: 1rem;
+  border-top: 1px solid rgba(218, 192, 157, .16);
+}
+.product__size { font-family: var(--mono); font-size: .74rem; color: var(--crown); }
+.product__price { font-family: var(--mono); font-size: 1rem; color: var(--gold); margin: 0; }
+.product__price span { font-size: .72rem; opacity: .75; }
 .product__img { aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: .6rem; filter: grayscale(.15); }
 
 .products__empty {
