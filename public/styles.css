@@ -1,16 +1,17 @@
 /* ===================================================================
    M Salon
-   Palette is lifted straight off the logo: the black disc, the cream
-   crown, the grey M — plus the signal yellow from the shop's signage.
+   Palette is the logo and nothing else: the black disc, the cream crown,
+   the grey M. The crown carries every accent; where it has to sit on the
+   pale paper it is taken darker (brass) so it still reads.
    =================================================================== */
 
 :root {
   --ink:        #0B0B0B;
   --ink-soft:   #16181A;
   --graphite:   #5D5D5D;
-  --crown:      #DAC09D;
+  --crown:      #DAC09D;   /* the crown, straight off the logo */
+  --brass:      #A8814B;   /* the same hue taken darker, for the pale ground */
   --crown-dim:  #A8917214;
-  --gold:       #FED130;
   --paper:      #E1ECF0;
   --paper-warm: #EDF3F5;
   --line:       rgba(11, 11, 11, .16);
@@ -55,10 +56,10 @@ a { color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 button, input, textarea { font: inherit; color: inherit; }
 
-::selection { background: var(--gold); color: var(--ink); }
+::selection { background: var(--crown); color: var(--ink); }
 
 :where(a, button, input, textarea, summary):focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--brass);
   outline-offset: 3px;
 }
 
@@ -72,25 +73,25 @@ button, input, textarea { font: inherit; color: inherit; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 20;
   height: var(--bar);
   background: var(--paper);
-  border-bottom: 2px solid var(--gold);
+  border-bottom: 1px solid var(--line);
 }
 
 .tabs {
   position: relative;
   height: 100%;
   display: grid;
-  grid-template-columns: 27fr 34fr 20fr 19fr;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .tab {
   display: flex; align-items: center; gap: .5rem;
   padding-inline: clamp(.6rem, 2vw, 1.4rem);
   text-decoration: none;
-  border-right: 2px solid var(--gold);
+  border-right: 1px solid var(--line);
   transition: background-color .35s ease, color .35s ease;
 }
 .tab:last-of-type { border-right: 0; }
-.tab:hover { background: color-mix(in srgb, var(--gold) 20%, transparent); }
+.tab:hover { background: color-mix(in srgb, var(--brass) 12%, transparent); }
 
 .tab__index {
   font-family: var(--mono); font-size: .625rem; letter-spacing: .08em;
@@ -105,7 +106,7 @@ button, input, textarea { font: inherit; color: inherit; }
 
 /* the marker that rides along the bottom rule as you scroll */
 .tabs__slider {
-  position: absolute; bottom: -2px; left: 0; height: 2px; width: 27%;
+  position: absolute; bottom: -1px; left: 0; height: 2px; width: 25%;
   background: var(--ink);
   will-change: transform, width;
 }
@@ -123,15 +124,15 @@ button, input, textarea { font: inherit; color: inherit; }
   --rule: rgba(218, 192, 157, .12);
 }
 
-/* The yellow dividers in the tab bar carry on down the page, very faintly.
-   It is what keeps the four sections feeling like one sheet of paper. */
+/* The dividers in the tab bar carry on down the page, very faintly. It is
+   what keeps the four sections feeling like one sheet of paper. */
 @media (min-width: 60rem) {
   .section {
     background-image: linear-gradient(90deg,
-      transparent 0 27%, var(--rule) 27% calc(27% + 1px),
-      transparent calc(27% + 1px) 61%, var(--rule) 61% calc(61% + 1px),
-      transparent calc(61% + 1px) 81%, var(--rule) 81% calc(81% + 1px),
-      transparent calc(81% + 1px));
+      transparent 0 25%, var(--rule) 25% calc(25% + 1px),
+      transparent calc(25% + 1px) 50%, var(--rule) 50% calc(50% + 1px),
+      transparent calc(50% + 1px) 75%, var(--rule) 75% calc(75% + 1px),
+      transparent calc(75% + 1px));
   }
 }
 #book { padding-top: calc(var(--bar) + 1rem); }
@@ -143,8 +144,8 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .rubric b { color: var(--ink); font-weight: 500; }
 .rubric::after { content: ''; flex: 1; height: 1px; background: var(--line); max-width: 8rem; }
-.rubric--light { color: var(--crown); }
-.rubric--light b { color: var(--gold); }
+.rubric--light { color: rgba(218, 192, 157, .68); }
+.rubric--light b { color: var(--crown); }
 
 .section__head { max-width: 52rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
 .section__title {
@@ -281,11 +282,11 @@ button, input, textarea { font: inherit; color: inherit; }
 .day.is-selected {
   background: var(--ink); border-color: var(--ink); color: var(--paper);
 }
-.day.is-selected .day__dow, .day.is-selected .day__open { color: var(--gold); }
+.day.is-selected .day__dow, .day.is-selected .day__open { color: var(--crown); }
 .day:disabled { opacity: .38; cursor: not-allowed; }
 .day.is-today .day__num::after {
   content: ''; display: inline-block; width: .3rem; height: .3rem;
-  border-radius: 50%; background: var(--gold); margin-left: .3rem; vertical-align: .6rem;
+  border-radius: 50%; background: var(--brass); margin-left: .3rem; vertical-align: .6rem;
 }
 
 /* time grid */
@@ -297,7 +298,7 @@ button, input, textarea { font: inherit; color: inherit; }
   transition: border-color .2s ease, background-color .2s ease, color .2s ease;
 }
 .time:hover:not(:disabled) { border-color: var(--ink); }
-.time.is-selected { background: var(--ink); border-color: var(--ink); color: var(--gold); }
+.time.is-selected { background: var(--ink); border-color: var(--ink); color: var(--crown); }
 .time:disabled { color: #A9B2B6; border-color: var(--line-soft); cursor: not-allowed; text-decoration: line-through; }
 .times .muted, .times .loading { grid-column: 1 / -1; }
 
@@ -322,7 +323,7 @@ button, input, textarea { font: inherit; color: inherit; }
   padding: .55rem .1rem; border-radius: 0; resize: vertical;
 }
 .field input::placeholder { color: #9AA5AA; }
-.field input:focus, .field textarea:focus { outline: 0; border-bottom-color: var(--gold); box-shadow: 0 1px 0 var(--gold); }
+.field input:focus, .field textarea:focus { outline: 0; border-bottom-color: var(--brass); box-shadow: 0 1px 0 var(--brass); }
 
 .summary {
   grid-column: 1 / -1; border: 1px solid var(--line); border-radius: 2px;
@@ -356,10 +357,12 @@ button, input, textarea { font: inherit; color: inherit; }
   transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .2s ease;
 }
 .btn:active { transform: translateY(1px); }
-.btn--gold { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-.btn--gold:hover { background: var(--ink); border-color: var(--ink); color: var(--gold); }
+.btn--gold { background: var(--brass); border-color: var(--brass); color: #FFF6E9; }
+.btn--gold:hover { background: var(--ink); border-color: var(--ink); color: var(--crown); }
 .btn--ink:hover { background: transparent; color: var(--ink); }
 .section--ink .btn--ink { border-color: var(--crown); }
+.section--ink .btn--gold { background: var(--crown); border-color: var(--crown); color: var(--ink); }
+.section--ink .btn--gold:hover { background: transparent; color: var(--crown); }
 .btn--ghost { background: transparent; color: inherit; border-color: currentColor; }
 .btn--ghost:hover { background: currentColor; }
 .btn--ghost:hover { color: var(--paper); }
@@ -374,7 +377,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .ticket__top {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
-  padding: 1rem 1.25rem; background: var(--gold); color: var(--ink);
+  padding: 1rem 1.25rem; background: var(--crown); color: var(--ink);
 }
 .ticket__label {
   margin: 0; font-family: var(--mono); font-size: .72rem;
@@ -405,7 +408,7 @@ button, input, textarea { font: inherit; color: inherit; }
   cursor: pointer; font-family: var(--mono); font-size: .76rem;
   letter-spacing: .1em; text-transform: uppercase; color: var(--graphite);
 }
-.lookup summary::marker { color: var(--gold); }
+.lookup summary::marker { color: var(--brass); }
 .lookup__form { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
 .lookup__form input {
   background: transparent; border: 1px solid var(--line); border-radius: 2px;
@@ -431,7 +434,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .product__brand {
   font-family: var(--mono); font-size: .66rem; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--gold); margin: 0;
+  text-transform: uppercase; color: var(--crown); margin: 0;
 }
 .product__name {
   font-size: 1.1rem; text-transform: uppercase; font-stretch: 104%; line-height: 1.05;
@@ -443,7 +446,7 @@ button, input, textarea { font: inherit; color: inherit; }
   border-top: 1px solid rgba(218, 192, 157, .16);
 }
 .product__size { font-family: var(--mono); font-size: .74rem; color: var(--crown); }
-.product__price { font-family: var(--mono); font-size: 1rem; color: var(--gold); margin: 0; }
+.product__price { font-family: var(--mono); font-size: 1rem; color: var(--crown); margin: 0; }
 .product__price span { font-size: .72rem; opacity: .75; }
 .product__img { aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: .6rem; filter: grayscale(.15); }
 
@@ -485,7 +488,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .visit__phone {
   font-size: clamp(1.4rem, 1rem + 1.6vw, 2rem); font-weight: 700;
   text-decoration: none; letter-spacing: -.01em; font-stretch: 104%;
-  border-bottom: 2px solid var(--gold);
+  border-bottom: 2px solid var(--crown);
 }
 .visit__small { font-size: .85rem; color: var(--crown); margin: 0; }
 .visit__card .btn { margin-top: auto; }
@@ -493,8 +496,8 @@ button, input, textarea { font: inherit; color: inherit; }
 .hours { width: 100%; border-collapse: collapse; font-size: .9rem; }
 .hours td { padding: .4rem 0; border-bottom: 1px solid rgba(218, 192, 157, .14); }
 .hours td:last-child { text-align: right; font-family: var(--mono); font-size: .82rem; color: var(--crown); }
-.hours tr.is-today td { color: var(--gold); }
-.hours tr.is-today td:last-child { color: var(--gold); }
+.hours tr.is-today td { color: var(--crown); }
+.hours tr.is-today td:last-child { color: var(--crown); }
 
 .visit__cta {
   display: inline-flex; align-items: center; gap: .7rem; margin-top: clamp(2.5rem, 5vw, 4rem);
