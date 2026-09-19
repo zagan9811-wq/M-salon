@@ -95,8 +95,6 @@ async function loadProducts(price) {
     return;
   }
 
-  document.getElementById('products-shelf').hidden = false;
-
   grid.innerHTML = '';
   products.forEach((product) => {
     const card = document.createElement('article');

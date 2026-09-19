@@ -8,12 +8,17 @@
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-/* How much of the remaining distance the page eats per frame while the wheel
-   is driving it, measured at 60fps. Lower = longer, softer glide.
-   0.15 is roughly what a browser does on its own and reads as steppy;
-   0.05 keeps the same fast-then-fading shape as the tab jumps, only gentler.
-   Anything under 0.03 starts to feel like the page is lagging behind you. */
-const WHEEL_EASE = 0.05;
+/* The wheel runs at a near-constant speed rather than fading the whole way:
+   the page travels at WHEEL_SPEED and only softens over the last WHEEL_LAND
+   pixels, so a flick feels direct instead of floaty.
+
+   WHEEL_SPEED  px per millisecond — the flat part of the move. Higher = snappier.
+   WHEEL_LAND   px over which it slows down instead of stopping dead. 0 = hard stop.
+   WHEEL_CATCH  only takes over when notches stack up faster than the flat speed
+                can clear them, so a fast scroll never falls behind the wheel. */
+const WHEEL_SPEED = 1.6;
+const WHEEL_LAND = 55;
+const WHEEL_CATCH = 0.16;
 
 const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 const clamp = (min, value, max) => Math.max(min, Math.min(value, max));
@@ -214,9 +219,8 @@ export function initReveal() {
 /* ------------------------------------------------------ wheel: soft glide */
 /*
  * A mouse wheel moves the page in hard steps. This replaces each step with a
- * pull towards a target: every frame the page covers WHEEL_EASE of whatever
- * distance is left, which is fast at the moment of the flick and keeps fading
- * as it arrives — the same curve as a section jump, just lighter.
+ * run towards a target: the page travels at a steady speed and only eases over
+ * the last stretch, so the motion is smooth without feeling like it is coasting.
  *
  * Deliberately left alone: touch screens, trackpads (they carry their own
  * inertia and smoothing one on top of the other only feels late), pinch-zoom,
@@ -307,7 +311,14 @@ export function initWheel() {
       return;
     }
 
-    current += left * (1 - Math.pow(1 - WHEEL_EASE, frames));
+    // Flat speed, eased down only as it arrives...
+    const landing = clamp(0.3, Math.abs(left) / WHEEL_LAND, 1);
+    const flat = WHEEL_SPEED * frames * (1000 / 60) * landing;
+    // ...and a proportional pull underneath it, so a burst of notches is
+    // caught up with rather than queued behind the flat speed.
+    const pull = Math.abs(left) * (1 - Math.pow(1 - WHEEL_CATCH, frames));
+
+    current += Math.sign(left) * Math.min(Math.abs(left), Math.max(flat, pull));
     window.scrollTo(0, current);
     requestAnimationFrame(tick);
   }
